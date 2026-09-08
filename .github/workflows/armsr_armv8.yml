@@ -11,8 +11,8 @@ on:
         options:
           - true
           - false
-  schedule:
-    - cron: "0 0 1,16 * *"
+  # schedule:
+  #   - cron: "0 0 1,16 * *"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
