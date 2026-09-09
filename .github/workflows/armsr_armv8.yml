@@ -11,8 +11,14 @@ on:
         options:
           - true
           - false
-  # schedule:
-  #   - cron: "0 0 1,16 * *"
+      runner_type:
+        description: '选择运行环境'
+        required: true
+        default: 'ubuntu-24.04'
+        type: choice
+        options:
+          - ubuntu-24.04      # GitHub 托管服务器
+          - self-hosted       # 本机 Docker Runner
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -22,7 +28,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ github.event.inputs.runner_type }}
 
     steps:
     - name: Checkout
