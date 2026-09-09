@@ -51,6 +51,14 @@ jobs:
         path: openwrt
         fetch-depth: 1
 
+    - name: Link persistent dl cache
+      run: |
+        mkdir -p /workdir/dl
+        # 每次干净检出后重建 dl 软链接，指向 checkout 清理范围之外的持久目录，
+        # 使已下载的源码包在 self-hosted 上跨 job 保留，避免重复下载（不动编译配置/补丁，杜绝残留）
+        rm -rf openwrt/dl
+        ln -s /workdir/dl openwrt/dl
+
     - name: Create symlink and set date
       run: |
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
