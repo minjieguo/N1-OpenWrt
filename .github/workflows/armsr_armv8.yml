@@ -22,7 +22,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_URL: immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-25.12
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
 
     - name: Initialize environment
       env:
@@ -44,11 +44,16 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: Clone source code
-      working-directory: /workdir
+    - name: Checkout OpenWrt source
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ env.REPO_URL }}
+        ref: ${{ env.REPO_BRANCH }}
+        path: /workdir/openwrt
+        fetch-depth: 1
+
+    - name: Create symlink and set date
       run: |
-        rm -rf openwrt
-        git clone $REPO_URL -b $REPO_BRANCH --single-branch --depth=1 openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
 
@@ -64,7 +69,8 @@ jobs:
     - name: Load N1 custom config
       run: |
         rm -rf openwrt/files openwrt/.config
-        mv armsr/armv8/N1/files armsr/armv8/N1/.config openwrt/
+        mv armsr/armv8/N1/files openwrt/
+        mv armsr/armv8/N1/.config openwrt/
 
     - name: SSH connect to Actions
       uses: P3TERX/ssh2actions@main
