@@ -22,7 +22,6 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  REPO_URL: immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-25.12
 
 jobs:
@@ -47,14 +46,13 @@ jobs:
     - name: Checkout OpenWrt source
       uses: actions/checkout@v4
       with:
-        repository: ${{ env.REPO_URL }}
+        repository: immortalwrt/immortalwrt
         ref: ${{ env.REPO_BRANCH }}
-        path: /workdir/openwrt
+        path: openwrt
         fetch-depth: 1
 
     - name: Create symlink and set date
       run: |
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         echo "FILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
 
     - name: Update & Install feeds
