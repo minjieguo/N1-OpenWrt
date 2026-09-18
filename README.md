@@ -2,6 +2,9 @@
 本固件适配斐讯 N1 旁路由模式，追求轻量，不具备 PPPoE、WiFi 相关功能。<br>
 固件仅包含默认皮肤以及下列 luci-app：<br>
 [luci-app-amlogic](https://github.com/ophub/luci-app-amlogic)：系统更新、文件传输、CPU 调频等<br>
+[luci-app-daed](https://github.com/QiuSimons/luci-app-daed)：基于eBPF分流的代理工具。内存占用稍大、上手门槛较高，换来的是直连流量处理性能大幅强于传统的各类用户态代理工具(OpenClash、SSRplus、Passwall等)。<br>
+[luci-app-nikki](https://github.com/nikkinikki-org/OpenWrt-nikki)：基于 sing-box 的代理工具，支持 TUN 与透明代理。<br>
+[luci-app-podman](https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman)：容器管理<br>
 luci-app-samba4：存储共享
 ***
 # 致谢
